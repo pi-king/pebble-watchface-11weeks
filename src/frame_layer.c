@@ -135,7 +135,7 @@ static const int SCALE_POINTS_NUM = 104;
 static GPath* s_hand_path;
 
 static struct tm* s_now = NULL;
-static struct tm  s_prev = {0};
+static struct tm  s_prev;
 
 static Layer* s_frame_layer;
 

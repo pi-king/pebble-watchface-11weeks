@@ -11,8 +11,21 @@
     "resources": {
         "media": [
             {
-                "file": "images/phone_battery_charging.png",
-                "name": "IMAGE_PHONE_BATTERY_CHARGING",
+                "file": "images/number_3x5_BK.png",
+                "name": "IMAGE_NUMBER_3X5_BK",
+                "targetPlatforms": null,
+                "type": "png"
+            },
+            {
+                "file": "images/number_3x5.png",
+                "name": "IMAGE_NUMBER_3X5",
+                "targetPlatforms": null,
+                "type": "png"
+            },
+            {
+                "file": "images/background.png",
+                "name": "IMAGE_BACKGROUND",
+                "targetPlatforms": null,
                 "type": "png"
             },
             {
@@ -26,18 +39,13 @@
                 "type": "png"
             },
             {
-                "file": "images/big_number_3x5.png",
-                "name": "IMAGE_BIG_NUMBER_3X5",
-                "type": "png"
-            },
-            {
-                "file": "images/bluetooth_mark.png",
-                "name": "IMAGE_BLUETOOTH_MARK",
-                "type": "png"
-            },
-            {
                 "file": "images/watch_battery.png",
                 "name": "IMAGE_WATCH_BATTERY",
+                "type": "png"
+            },
+            {
+                "file": "images/phone_battery_charging.png",
+                "name": "IMAGE_PHONE_BATTERY_CHARGING",
                 "type": "png"
             },
             {
@@ -46,18 +54,18 @@
                 "type": "png"
             },
             {
-                "file": "images/background.png",
-                "name": "IMAGE_BACKGROUND",
-                "type": "png"
-            },
-            {
-                "file": "images/number_3x5.png",
-                "name": "IMAGE_NUMBER_3X5",
-                "type": "png"
-            },
-            {
                 "file": "images/cap_letters.png",
                 "name": "IMAGE_CAP_LETTERS_3X5",
+                "type": "png"
+            },
+            {
+                "file": "images/bluetooth_mark.png",
+                "name": "IMAGE_BLUETOOTH_MARK",
+                "type": "png"
+            },
+            {
+                "file": "images/big_number_3x5.png",
+                "name": "IMAGE_BIG_NUMBER_3X5",
                 "type": "png"
             }
         ]
@@ -65,7 +73,7 @@
     "sdkVersion": "3",
     "shortName": "11w",
     "targetPlatforms": [
-        "aplite"
+        "basalt"
     ],
     "uuid": "5d124af2-30f2-44b2-a32d-b459a159b489",
     "versionLabel": "1.0",

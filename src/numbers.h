@@ -12,4 +12,5 @@
 void numbers_create();
 void numbers_destroy();
 void graphics_draw_tiny_number(GContext* ctx, int number, int x, int y);
+void graphics_draw_tiny_number_bk(GContext* ctx, int number, int x, int y);
 void graphics_draw_big_number(GContext* ctx, int number, int x, int y);

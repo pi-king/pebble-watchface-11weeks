@@ -29,7 +29,7 @@ static Layer* s_layer_calendar;
 // a pointer to painted background buffer.
 static buffer_t* s_bg_buffer = NULL;
 static size_t s_bg_buffer_size = 0;
-static GSize s_bg_size = {0};
+static GSize s_bg_size = {0,0};
 // row size byte for background buffer.
 static int s_bg_row_size_byte;
 
@@ -38,7 +38,7 @@ static time_t* s_now_t = NULL;
 // variable to store current time in struct tm
 static struct tm* s_now = NULL;
 // variable to cache the time
-static struct tm s_prev = {0};
+static struct tm s_prev;
 
 static void calendar_layer_update_proc(Layer* layer, GContext* ctx);
 static void calendar_layer_draw_time(GContext* ctx);
@@ -62,11 +62,11 @@ static void update_bg_buffer(GContext* ctx) {
   
   buffer_t* frame_buffer = gbitmap_get_data(bmp);
   s_bg_row_size_byte = gbitmap_get_bytes_per_row(bmp);
-#ifdef PBL_BW
-  size_t size = s_bg_row_size_byte * bounds.size.h;
-#elif PBL_COLOR
+//#ifdef PBL_BW
+  //size_t size = s_bg_row_size_byte * bounds.size.h;
+//#elif PBL_COLOR
   size_t size = bounds.size.w * bounds.size.h;
-#endif
+//#endif
   if (!s_bg_buffer) {
     s_bg_buffer_size = size;
     s_bg_buffer = (buffer_t*) malloc(s_bg_buffer_size * sizeof(buffer_t));
@@ -107,15 +107,10 @@ static void destroy_bg_buffer() {
 }
 
 static uint8_t get_pixel_from_buffer(int x, int y) {
-#ifdef PBL_BW
-  int index = y * (s_bg_row_size_byte) + (x >> 3);
-  buffer_t shift = x & 0x07;
-  buffer_t mask = 1 << shift;
-  return (s_bg_buffer[index] & mask) ? 1 : 0;
-#elif PBL_COLOR
+
   int index = y * s_bg_size.w + x;
-  return s_bg_buffer[index];
-#endif
+  return s_bg_buffer[index] != GColorBlackARGB8;
+
 }
 
 void calendar_layer_update_time(time_t* time, struct tm* tm) {
@@ -130,7 +125,7 @@ static void calendar_layer_update_proc(Layer* layer, GContext* ctx) {
       calendar_layer_draw_time(ctx);
       
       // draw calendar grids
-      graphics_context_set_compositing_mode(ctx, GCompOpOr);
+      graphics_context_set_compositing_mode(ctx, GCompOpSet);
       GRect rect = gbitmap_get_bounds(s_bitmap_background);
       graphics_draw_bitmap_in_rect(ctx, s_bitmap_background, rect);
       
@@ -256,11 +251,19 @@ static void calendar_layer_draw_curr_week_indicator(GContext* ctx, int week, boo
 static void calendar_layer_draw_date(GContext* ctx, int wday, int week, int mday, bool is_today) {
   GPoint start_point = GPoint(SX + DX + CW * wday, SY + DY + CH * week);
   bool is_black_bg = !get_pixel_from_buffer(start_point.x - DX + 1, start_point.y - DY + 1);
-  graphics_context_set_compositing_mode(ctx, is_black_bg ? GCompOpAssign : GCompOpAssignInverted);
-  if (mday > 9) {
-    graphics_draw_tiny_number(ctx, mday / 10, start_point.x, start_point.y);
+  graphics_context_set_compositing_mode(ctx, GCompOpAssign );
+  if (is_black_bg){
+	  if (mday > 9) {
+		graphics_draw_tiny_number(ctx, mday / 10, start_point.x, start_point.y);
+	  }
+	  graphics_draw_tiny_number(ctx, mday % 10, start_point.x + 4, start_point.y);
+  }else{
+	  if (mday > 9) {
+		graphics_draw_tiny_number_bk(ctx, mday / 10, start_point.x, start_point.y);
+	  }
+	  graphics_draw_tiny_number_bk(ctx, mday % 10, start_point.x + 4, start_point.y);
   }
-  graphics_draw_tiny_number(ctx, mday % 10, start_point.x + 4, start_point.y);
+	
   if (is_today) {
     // mark current day
     GRect rect_mark = GRect(start_point.x - DX + 1, start_point.y - DX + 0, CW - 3, CH - 1);
